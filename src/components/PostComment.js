@@ -8,7 +8,7 @@ class PostComment extends Component{
 
     // prevent form to submit
     e.preventDefault();
-    
+
     action(commentMsg);
     textarea.value = "";
   }
@@ -17,6 +17,9 @@ class PostComment extends Component{
     return(
       <div>
         <form onSubmit={(event)=> this.executeAction(event)}>
+          <div>
+            <textarea type="text" />
+          </div>
           <div>
             <textarea type="text" />
           </div>

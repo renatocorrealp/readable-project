@@ -1,5 +1,7 @@
 
 const api = "http://localhost:3001"
+export const UP_VOTE = "upVote";
+export const DOWN_VOTE = "downVote";
 
 const headers = {
   'Accept': 'application/json',
@@ -59,5 +61,29 @@ export const sendPost = (post) =>
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(post)
+    })
+    .then(res => {return res.json()})
+
+export const updateCommentVote = (commentId, option) =>
+  fetch(`${api}/comments/${commentId}`,
+    {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({option})
+    })
+    .then(res => {return res.json()})
+
+export const updatePostVote = (postId, option) =>
+  fetch(`${api}/posts/${postId}`,
+    {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({option})
     })
     .then(res => {return res.json()})

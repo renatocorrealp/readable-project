@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Route }from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { getPostsByCategory, deletePost, sendPost } from '../utils/apis';
-import { receivePosts, removePost, addPost } from '../actions';
+import { getPostsByCategory, deletePost, sendPost, updatePostVote, DOWN_VOTE, UP_VOTE } from '../utils/apis';
+import { receivePosts, removePost, addPost, votePost, removePostVote } from '../actions';
 import ListComments from './ListComments';
-import PostComment from './PostComment';
 import crypto from 'crypto-browserify';
+import '../style/ListPosts.css';
 class ListPosts extends Component{
   componentDidMount = () => {
       const {category} = this.props;
@@ -19,11 +19,19 @@ class ListPosts extends Component{
     removePost(postId);
   }
 
-  post = (postMessage) => {
+  post = (e) => {
     const { addPost, category } = this.props;
+    // prevent form to submit
+    e.preventDefault();
+
+    const titleInput = e.target.querySelector("#post-title");
+    const postTitle = titleInput.value;
+    const bodyTextArea = e.target.querySelector("#post-body");
+    const postBody = bodyTextArea.value;
 
     // TODO pegar username
     const username = "rcorrea";
+
     // TODO colocar geração de id em componente aparte
     const id = crypto.createHash('sha1').update(Date.now() + username).digest('hex');
 
@@ -31,34 +39,70 @@ class ListPosts extends Component{
     newPost.id = id;
     newPost.category = category.name;
     // TODO ajustar
-    newPost.title = "nova msg";
+    newPost.title = postTitle;
     newPost.timestamp = Date.now();
-    newPost.body = postMessage;
+    newPost.body = postBody;
     newPost.author = username;
 
     addPost(newPost);
+    bodyTextArea.value = "";
+    titleInput.value = "";
+  }
+
+  votePost = (postId, voteMode) => {
+    const { votePost } = this.props;
+    votePost(postId);
+  }
+
+  removePostVote = (postId) => {
+    const { removePostVote } = this.props;
+    removePostVote(postId);
   }
 
   render(){
     const {posts} = this.props;
     const {category} = this.props;
     return(
-      <div>
+      <div className="list-posts">
         <Route
           exact path={category.path}
           render={() => (
             <div>
               {posts.map((post) =>(
-                  <div key={post.id}>
-                    <Link to={post.commentsPath}>
-                      {post.body} - {post.author}
-                    </Link>
-                    <input type="button" value="Excluir" onClick={() => this.removePost(post.id)}/>
+                  <div key={post.id} className="post-item">
+                    <div>
+                      <Link to={post.commentsPath}>
+                        <div>
+                          {post.title}
+                        </div>
+                        <div>
+                          {post.body} - {post.author}
+                        </div>
+                      </Link>
+                    </div>
+                    <div>
+                      {post.voteScore}
+                      <input type="button" value="Vote" onClick={() => this.votePost(post.id)}/>
+                      <input type="button" value="Remove vote" onClick={() => this.removePostVote(post.id)}/>
+                      <input type="button" value="Remove" onClick={() => this.removePost(post.id)}/>
+                    </div>
 
                   </div>
                 )
               )}
-              <PostComment action={this.post} />
+              <div>
+                <form onSubmit={(event)=> this.post(event)}>
+                  <div>
+                    <input type="text" id="post-title" />
+                  </div>
+                  <div>
+                    <textarea type="text" id="post-body" />
+                  </div>
+                  <div>
+                    <input type="submit" value="Send"/>
+                  </div>
+                </form>
+              </div>
               <Link to="/">Back</Link>
             </div>
           )}
@@ -91,9 +135,11 @@ const mapStateToProps = ({posts}, {category}) =>{
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    addPost: (data) => sendPost(data).then(post => dispatch(addPost(data))),
+    addPost: (post) => sendPost(post).then(response => dispatch(addPost(response))),
     fetchPosts: (category) => getPostsByCategory(category).then(posts => dispatch(receivePosts(posts))),
-    removePost: (postId) => deletePost(postId).then(() => dispatch(removePost(postId)))
+    removePost: (postId) => deletePost(postId).then(() => dispatch(removePost(postId))),
+    votePost: (postId) => updatePostVote(postId, UP_VOTE).then(() => dispatch(votePost(postId))),
+    removePostVote: (postId) => updatePostVote(postId, DOWN_VOTE).then(() => dispatch(removePostVote(postId)))
   }
 }
 

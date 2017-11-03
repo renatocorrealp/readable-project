@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {getCommentsByPost, sendComment, deleteComment} from '../utils/apis';
-import {receiveComments, addComment, removeComment} from '../actions';
+import {getCommentsByPost, sendComment, deleteComment, updateCommentVote, UP_VOTE, DOWN_VOTE} from '../utils/apis';
+import {receiveComments, addComment, removeComment, voteComment, removeCommentVote} from '../actions';
 import crypto from 'crypto-browserify';
 import PostComment from './PostComment';
 class Comments extends Component{
@@ -35,6 +35,16 @@ class Comments extends Component{
     removeComment(commentId);
   }
 
+  removeCommentVote = (commentId) => {
+    const { removeCommentVote } = this.props;
+    removeCommentVote(commentId);
+  }
+
+  voteComment = (commentId) =>{
+    const { voteComment } = this.props;
+    voteComment(commentId);
+  }
+
   render(){
     const { comments } = this.props;
     const { post } = this.props;
@@ -42,8 +52,17 @@ class Comments extends Component{
       <div>
         {comments.map((comment) => (
           <div key={comment.id}>
-            {comment.body}
-            <input type="button" value="excluir" onClick={() => this.removeComment(comment.id)} />
+            <div>
+              {comment.body}
+            </div>
+
+
+            <div>
+              {comment.voteScore}
+              <input type="button" value="Vote" onClick={() => this.voteComment(comment.id)}/>
+              <input type="button" value="Remove vote" onClick={() => this.removeCommentVote(comment.id)}/>
+              <input type="button" value="Remove" onClick={() => this.removeComment(comment.id)} />
+            </div>
           </div>
         ))}
         <PostComment action={this.saveComment} />
@@ -62,7 +81,9 @@ const mapDispatchToProps = (dispatch) =>{
   return {
     fetchComments: (postId) => getCommentsByPost(postId).then(comments => dispatch(receiveComments(comments))),
     addComment: (data) => sendComment(data).then(comment => dispatch(addComment(data))),
-    removeComment: (commentId) => deleteComment(commentId).then(() => dispatch(removeComment(commentId)))
+    removeComment: (commentId) => deleteComment(commentId).then(() => dispatch(removeComment(commentId))),
+    voteComment: (commentId) => updateCommentVote(commentId, UP_VOTE).then(() => dispatch(voteComment(commentId))),
+    removeCommentVote: (commentId) => updateCommentVote(commentId, DOWN_VOTE).then(() => dispatch(removeCommentVote(commentId))),
   }
 }
 
