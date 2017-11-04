@@ -21,9 +21,6 @@ class PostComment extends Component{
             <textarea type="text" />
           </div>
           <div>
-            <textarea type="text" />
-          </div>
-          <div>
             <input type="submit" value="Send"/>
           </div>
         </form>

@@ -3,20 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Route }from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { getPostsByCategory, deletePost, sendPost, updatePostVote, DOWN_VOTE, UP_VOTE } from '../utils/apis';
-import { receivePosts, removePost, addPost, votePost, removePostVote } from '../actions';
+import { getPostsByCategory, sendPost } from '../utils/apis';
+import { addPost, receivePosts } from '../actions';
 import ListComments from './ListComments';
-import crypto from 'crypto-browserify';
 import '../style/ListPosts.css';
+import Post from './Post';
+import crypto from 'crypto-browserify';
+
 class ListPosts extends Component{
   componentDidMount = () => {
       const {category} = this.props;
       this.props.fetchPosts(category.name);
-  }
-
-  removePost = (postId) => {
-    const { removePost } = this.props;
-    removePost(postId);
   }
 
   post = (e) => {
@@ -49,16 +46,6 @@ class ListPosts extends Component{
     titleInput.value = "";
   }
 
-  votePost = (postId, voteMode) => {
-    const { votePost } = this.props;
-    votePost(postId);
-  }
-
-  removePostVote = (postId) => {
-    const { removePostVote } = this.props;
-    removePostVote(postId);
-  }
-
   render(){
     const {posts} = this.props;
     const {category} = this.props;
@@ -69,27 +56,8 @@ class ListPosts extends Component{
           render={() => (
             <div>
               {posts.map((post) =>(
-                  <div key={post.id} className="post-item">
-                    <div>
-                      <Link to={post.commentsPath}>
-                        <div>
-                          {post.title}
-                        </div>
-                        <div>
-                          {post.body} - {post.author}
-                        </div>
-                      </Link>
-                    </div>
-                    <div>
-                      {post.voteScore}
-                      <input type="button" value="Vote" onClick={() => this.votePost(post.id)}/>
-                      <input type="button" value="Remove vote" onClick={() => this.removePostVote(post.id)}/>
-                      <input type="button" value="Remove" onClick={() => this.removePost(post.id)}/>
-                    </div>
-
-                  </div>
-                )
-              )}
+                  <Post key={post.id} post={post}/>
+              ))}
               <div>
                 <form onSubmit={(event)=> this.post(event)}>
                   <div>
@@ -136,10 +104,7 @@ const mapStateToProps = ({posts}, {category}) =>{
 const mapDispatchToProps = (dispatch) =>{
   return {
     addPost: (post) => sendPost(post).then(response => dispatch(addPost(response))),
-    fetchPosts: (category) => getPostsByCategory(category).then(posts => dispatch(receivePosts(posts))),
-    removePost: (postId) => deletePost(postId).then(() => dispatch(removePost(postId))),
-    votePost: (postId) => updatePostVote(postId, UP_VOTE).then(() => dispatch(votePost(postId))),
-    removePostVote: (postId) => updatePostVote(postId, DOWN_VOTE).then(() => dispatch(removePostVote(postId)))
+    fetchPosts: (category) => getPostsByCategory(category).then(posts => dispatch(receivePosts(posts)))
   }
 }
 

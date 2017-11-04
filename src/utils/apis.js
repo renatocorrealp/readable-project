@@ -40,6 +40,17 @@ export const deleteComment = (commentId) =>
     })
   .then(res => {return res.json()})
 
+export const updateComment = (commentId, body, timestamp) =>
+  fetch(`${api}/comments/${commentId}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({timestamp, body})
+  })
+  .then(res => {return res.json()})
+
 export const deletePost = (postId) =>
   fetch(`${api}/posts/${postId}`,
     {
@@ -87,3 +98,14 @@ export const updatePostVote = (postId, option) =>
       body: JSON.stringify({option})
     })
     .then(res => {return res.json()})
+
+export const updatePost = (postId, title, body, timestamp) =>
+  fetch(`${api}/posts/${postId}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({timestamp, title, body})
+  })
+  .then(res => {return res.json()})
