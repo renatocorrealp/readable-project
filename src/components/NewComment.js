@@ -73,7 +73,7 @@ class NewComment extends Component{
           </div>
           <div>
             <textarea id="comment-message" className={invalidMessage ? "invalid-field" : ""}
-                rows="5" placeholder="Write reply" type="text" />
+              rows="5" placeholder="Write reply" type="text" />
           </div>
           <div>
             <input type="submit" value="Send"/>

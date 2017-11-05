@@ -8,7 +8,7 @@ import { receivePosts } from '../actions';
 import ListComments from './ListComments';
 import Post from './Post';
 import '../style/ListPosts.css';
-import { ROOT_PATH } from '../App';
+import { ROOT_PATH } from './App';
 import Select from 'react-select';
 import NewPost from './NewPost';
 import { orderMessages, orderTypes, ORDER_NONE } from '../utils/commons';
@@ -88,7 +88,7 @@ class ListPosts extends Component{
                   </div>
                   <div className="posts-details">
                     {posts.map((post) =>(
-                        <Post key={post.id} post={post}/>
+                      <Post key={post.id} post={post}/>
                     ))}
 
                   </div>
@@ -104,7 +104,7 @@ class ListPosts extends Component{
               <NewPost category={category}/>
             </div>
           )}
-        />
+          />
         {posts.map((post) =>(
           <Route
             exact key={post.id} path={post.commentsPath}
@@ -113,7 +113,7 @@ class ListPosts extends Component{
                 <ListComments post={post} />
               </div>
             )}
-          />
+            />
         ))}
       </div>
     )

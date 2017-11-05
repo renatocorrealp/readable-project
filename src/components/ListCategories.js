@@ -8,25 +8,25 @@ class ListCategories extends Component{
     return (
       <div>
         {categories.map((category) =>(
-            <div key={category.name}>
-              <Link to={category.path}>{category.name}</Link>
-            </div>
-          )
-        )}
-      </div>
-    )
-  }
+          <div key={category.name}>
+            <Link to={category.path}>{category.name}</Link>
+          </div>
+        )
+      )}
+    </div>
+  )
+}
 }
 
 const mapStateToProps = ({categories}) =>{
   return {
     categories:
-      categories.map(category => {
-        return {
-          name : category.name,
-          path: "/" + category.path
-        }
-      })
+    categories.map(category => {
+      return {
+        name : category.name,
+        path: "/" + category.path
+      }
+    })
   };
 }
 
