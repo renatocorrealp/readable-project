@@ -1,0 +1,50 @@
+.comment-item{
+  border: solid #e4e6e8;
+  border-width: 0 0 1px 0;
+  width: 60%;
+  margin: auto;
+}
+
+.comment-view .unlike{
+  margin-top: 8px;
+}
+
+.comment-view .comment-actions{
+  width: 10%;
+  display: inline-flex;
+}
+
+.comment-view .pencil{
+  margin-top: 20px;
+}
+
+.comment-view .trash{
+  margin-top: 20px;
+}
+
+.comment-view .comment-like-actions{
+  display: inline-flex;
+  padding: 10px;
+}
+
+.comment-view .comment-message{
+  text-align: justify;
+  width: 70%;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 15px;
+  vertical-align: middle;
+  color: #8a97a0;
+  display: inline-block;
+}
+
+/* Edit form */
+.post-form .edit-buttons{
+  display: inline-flex;
+}
+
+.post-form .edit-buttons input{
+  width: auto;
+  margin: 0 30px;
+  font-size: 15px;
+}

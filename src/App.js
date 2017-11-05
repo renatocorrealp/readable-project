@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
 import './App.css';
-import ListCategories from './components/ListCategories';
 import {getAllCategories} from './utils/apis';
 import {receiveCategories} from './actions';
 import {Route}from 'react-router-dom';
 import {connect} from 'react-redux';
 import ListPosts from './components/ListPosts';
 import { withRouter } from 'react-router-dom';
+
+export const ROOT_PATH = {name:'all', path: '/'};
+
 class App extends Component {
   componentDidMount = () => {
       this.props.fetchCategories();
   }
 
   render() {
-    const {categories} = this.props;
+    let {categories} = this.props;
 
     return (
       <div className="App">
         <Route
           exact path="/"
           render={() => (
-            <ListCategories/>
+            <ListPosts category={ROOT_PATH}/>
           )}
         />
         {categories.map((category) =>(

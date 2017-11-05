@@ -3,107 +3,93 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Route }from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { getPostsByCategory, deletePost, sendPost, updatePostVote, DOWN_VOTE, UP_VOTE } from '../utils/apis';
-import { receivePosts, removePost, addPost, votePost, removePostVote } from '../actions';
+import { getAllPosts, getPostsByCategory } from '../utils/apis';
+import { receivePosts } from '../actions';
 import ListComments from './ListComments';
-import crypto from 'crypto-browserify';
+import Post from './Post';
 import '../style/ListPosts.css';
+import { ROOT_PATH } from '../App';
+import Select from 'react-select';
+import NewPost from './NewPost';
+import { orderMessages, orderTypes, ORDER_NONE } from '../utils/commons';
+
 class ListPosts extends Component{
+
+  state = {
+    orderSelected: ORDER_NONE
+  }
+
+  loadPosts = () => {
+    const {category, fetchPosts, fetchAllPosts} = this.props;
+    if(category.name === ROOT_PATH.name){
+      fetchAllPosts();
+    }else{
+      fetchPosts(category.name);
+    }
+  }
+
   componentDidMount = () => {
-      const {category} = this.props;
-      this.props.fetchPosts(category.name);
+    this.loadPosts();
   }
 
-  removePost = (postId) => {
-    const { removePost } = this.props;
-    removePost(postId);
-  }
+  orderPosts = (orderType) => {
+    const {posts, updatePosts} = this.props;
 
-  post = (e) => {
-    const { addPost, category } = this.props;
-    // prevent form to submit
-    e.preventDefault();
+    this.setState({orderSelected: orderType});
 
-    const titleInput = e.target.querySelector("#post-title");
-    const postTitle = titleInput.value;
-    const bodyTextArea = e.target.querySelector("#post-body");
-    const postBody = bodyTextArea.value;
+    if(orderType === ORDER_NONE){
+      this.loadPosts();
+    } else {
+      updatePosts(orderMessages(posts, orderType));
+    }
 
-    // TODO pegar username
-    const username = "rcorrea";
-
-    // TODO colocar geração de id em componente aparte
-    const id = crypto.createHash('sha1').update(Date.now() + username).digest('hex');
-
-    let newPost = {};
-    newPost.id = id;
-    newPost.category = category.name;
-    // TODO ajustar
-    newPost.title = postTitle;
-    newPost.timestamp = Date.now();
-    newPost.body = postBody;
-    newPost.author = username;
-
-    addPost(newPost);
-    bodyTextArea.value = "";
-    titleInput.value = "";
-  }
-
-  votePost = (postId, voteMode) => {
-    const { votePost } = this.props;
-    votePost(postId);
-  }
-
-  removePostVote = (postId) => {
-    const { removePostVote } = this.props;
-    removePostVote(postId);
   }
 
   render(){
     const {posts} = this.props;
-    const {category} = this.props;
+    const {category, categories} = this.props;
+    const {orderSelected} = this.state;
+    const allCategories = [ROOT_PATH, ...categories];
+
     return(
       <div className="list-posts">
         <Route
           exact path={category.path}
           render={() => (
             <div>
-              {posts.map((post) =>(
-                  <div key={post.id} className="post-item">
-                    <div>
-                      <Link to={post.commentsPath}>
-                        <div>
-                          {post.title}
-                        </div>
-                        <div>
-                          {post.body} - {post.author}
-                        </div>
-                      </Link>
-                    </div>
-                    <div>
-                      {post.voteScore}
-                      <input type="button" value="Vote" onClick={() => this.votePost(post.id)}/>
-                      <input type="button" value="Remove vote" onClick={() => this.removePostVote(post.id)}/>
-                      <input type="button" value="Remove" onClick={() => this.removePost(post.id)}/>
-                    </div>
-
+              <div className="categories">
+                {allCategories.map(category => (
+                  <div className="category-name" key={category.name}>
+                    <Link to={category.path}>{category.name}</Link>
                   </div>
-                )
-              )}
-              <div>
-                <form onSubmit={(event)=> this.post(event)}>
-                  <div>
-                    <input type="text" id="post-title" />
-                  </div>
-                  <div>
-                    <textarea type="text" id="post-body" />
-                  </div>
-                  <div>
-                    <input type="submit" value="Send"/>
-                  </div>
-                </form>
+                ))}
               </div>
-              <Link to="/">Back</Link>
+              <div align="right" className="filters">
+                <div className="width-13-percent message-sort">
+                  <div className="margin-top-15">
+                    Sorted By
+                  </div>
+                  <div className="margin-left-2-percent">
+                    <Select
+                      options={orderTypes}
+                      className="width-100-percent sort-selector"
+                      searchable={false}
+                      onChange={(event) => {
+                        if(event){
+                          this.orderPosts(event.value)
+                        }
+                      }}
+                      value={orderSelected}/>
+                  </div>
+                </div>
+              </div>
+
+              <div className="posts-details">
+                {posts.map((post) =>(
+                    <Post key={post.id} post={post}/>
+                ))}
+                <NewPost category={category}/>
+              </div>
             </div>
           )}
         />
@@ -122,24 +108,23 @@ class ListPosts extends Component{
   }
 }
 
-const mapStateToProps = ({posts}, {category}) =>{
+const mapStateToProps = ({posts, categories}) =>{
   return {
     posts: posts.filter((post) => {
-      post.commentsPath=`/${category.name}/${post.id}/comments`;
-      post.postsPath=`/${category.name}`
+      post.commentsPath=`/${post.category}/${post.id}/comments`;
+      post.postsPath=`/${post.category}`
       return !post.deleted;
-    })
+    }),
+    categories
 
   };
 }
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    addPost: (post) => sendPost(post).then(response => dispatch(addPost(response))),
     fetchPosts: (category) => getPostsByCategory(category).then(posts => dispatch(receivePosts(posts))),
-    removePost: (postId) => deletePost(postId).then(() => dispatch(removePost(postId))),
-    votePost: (postId) => updatePostVote(postId, UP_VOTE).then(() => dispatch(votePost(postId))),
-    removePostVote: (postId) => updatePostVote(postId, DOWN_VOTE).then(() => dispatch(removePostVote(postId)))
+    fetchAllPosts: (category) => getAllPosts().then(posts => dispatch(receivePosts(posts))),
+    updatePosts: (posts) => dispatch(receivePosts(posts))
   }
 }
 

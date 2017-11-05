@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import { RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, ADD_COMMENT, REMOVE_COMMENT,
-        ADD_POST, REMOVE_POST, VOTE_POST, REMOVE_POST_VOTE, COMMENT_VOTE, REMOVE_COMMENT_VOTE } from '../actions';
+        ADD_POST, REMOVE_POST, REMOVE_POST_VOTE, VOTE_POST, VOTE_COMMENT,
+        REMOVE_COMMENT_VOTE, EDIT_COMMENT, EDIT_POST, TURN_ON_OFF_EDIT_POST, TURN_ON_OFF_EDIT_COMMENT }
+        from '../actions';
 
 const categories = (state = [], action) =>{
   switch(action.type){
@@ -17,7 +19,20 @@ const posts = (state = [], action) => {
   switch(action.type){
     case ADD_POST: {
       const { newPost } = action;
+      newPost.edit = false;
       return [...state, newPost];
+    }
+    case EDIT_POST: {
+      const { postId, title, body, timestamp } = action;
+      return state.map((post) => {
+        if(post.id === postId){
+          post.title = title;
+          post.body = body;
+          post.timestamp = timestamp;
+        }
+
+        return post;
+      });
     }
     case RECEIVE_POSTS: {
       return action.posts
@@ -35,7 +50,17 @@ const posts = (state = [], action) => {
         return post;
       });
     }
-    case VOTE_POST: {
+    case TURN_ON_OFF_EDIT_POST: {
+      return state.map(post => {
+        if(post.id === action.postId){
+          post.edit = !post.edit;
+        }else{
+          post.edit = false;
+        }
+
+        return post;
+      });
+    } case VOTE_POST: {
       return state.map(post => {
 
         if(post.id === action.postId){
@@ -56,8 +81,19 @@ const comments = (state = [], action) => {
     case ADD_COMMENT: {
       return [...state, action.newComment];
     }
+    case EDIT_COMMENT: {
+      const { commentId, body, timestamp } = action;
+      return state.map((comment) => {
+        if(comment.id === commentId){
+          comment.body = body;
+          comment.timestamp = timestamp;
+        }
+
+        return comment;
+      });
+    }
     case RECEIVE_COMMENTS: {
-      return action.comments
+      return action.comments;
     }
     case REMOVE_COMMENT: {
       return state.filter(comment => comment.id !== action.commentId);
@@ -72,11 +108,22 @@ const comments = (state = [], action) => {
         return comment;
       });
     }
-    case COMMENT_VOTE: {
+    case VOTE_COMMENT: {
       return state.map(comment => {
 
         if(comment.id === action.commentId){
           comment.voteScore++;
+        }
+
+        return comment;
+      });
+    }
+    case TURN_ON_OFF_EDIT_COMMENT: {
+      return state.map(comment => {
+        if(comment.id === action.commentId){
+          comment.edit = !comment.edit;
+        }else{
+          comment.edit = false;
         }
 
         return comment;

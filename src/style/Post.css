@@ -1,0 +1,78 @@
+.post-item{
+  border: 1px solid #e4e6e8;
+  width: 100%;
+}
+
+.post-view .post-score{
+  margin-top: 15px;
+  height: 100%;
+  color: #6a737c;
+}
+
+.post-view .unlike{
+  margin-top: 8px;
+}
+
+.post-view .post-actions{
+  width: 10%;
+  display: inline-flex;
+}
+
+.post-view .pencil{
+  margin-top: 20px;
+}
+
+.post-view .trash{
+  margin-top: 20px;
+}
+
+.post-view .post-like-actions{
+  display: inline-flex;
+  padding: 10px;
+}
+
+.post-view .post-title{
+  width: 80%;
+  vertical-align: middle;
+  line-height: 2;
+  color: #005999;
+}
+
+.post-view .post-title a:visited {
+  text-decoration: none;
+  color: #005999;
+}
+
+.post-view .post-title a:link {
+  display: inline-block;
+  width: 100%;
+  text-decoration: none;
+  color: #005999;
+}
+
+.post-view .post-description{
+  width: 70%;
+  margin: auto;
+  display: inline-flex;
+}
+
+.post-view .post-message{
+  width: 100%;
+  display: inline-block;
+  text-align: justify;
+  width: 70%;
+  font-size: 15px;
+  vertical-align: middle;
+  color: #8a97a0;
+}
+
+/* Edit form */
+.post-form .edit-buttons{
+  display: inline-flex;
+}
+
+.post-form .edit-buttons input{
+  width: auto;
+  margin: 0 30px;
+  font-size: 15px;
+}
