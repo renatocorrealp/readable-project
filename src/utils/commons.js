@@ -1,3 +1,6 @@
+import Moment from 'moment';
+import crypto from 'crypto-browserify';
+
 export const ORDER_NONE = 'none';
 export const ORDER_TIME_ASC = 'time_asc';
 export const ORDER_TIME_DESC = 'time_desc';
@@ -41,3 +44,12 @@ export const orderTypes = [
     value: ORDER_TIME_DESC
   }
 ];
+
+export const formatTimestamp = (timestamp) => {
+  const moment = Moment(timestamp);
+  return moment.format('MMM DD, YYYY') + ' at ' + moment.format('hh:mm a');
+}
+
+export const getNewId = (author) => {
+  return crypto.createHash('sha1').update(Date.now() + author).digest('hex');
+}

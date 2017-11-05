@@ -39,31 +39,50 @@ class Comments extends Component{
     return(
       <div>
         <Post post={post}/>
-        <div align="right" className="filters">
-          <div className="width-13-percent message-sort">
-            <div className="margin-top-15">
-              Sorted By
+        {(comments && comments.length > 0) &&
+          <div>
+            <div align="right" className="filters">
+              <div className="width-13-percent message-sort">
+                <div className="margin-top-15">
+                  Sorted By
+                </div>
+                <div className="margin-left-2-percent">
+                  <Select
+                    options={orderTypes}
+                    className="width-100-percent sort-selector"
+                    searchable={false}
+                    onChange={(event) => {
+                      if(event){
+                        this.orderComments(event.value)
+                      }
+                    }}
+                    value={orderSelected}/>
+                </div>
+              </div>
             </div>
-            <div className="margin-left-2-percent">
-              <Select
-                options={orderTypes}
-                className="width-100-percent sort-selector"
-                searchable={false}
-                onChange={(event) => {
-                  if(event){
-                    this.orderComments(event.value)
-                  }
-                }}
-                value={orderSelected}/>
+
+            {comments.map((comment) => (
+                <Comment key={comment.id} comment={comment} post={post}/>
+            ))}
+          </div>
+        }
+        {(!comments || comments.length < 1) &&
+          <div className="no-message-found">
+            <div>
+              No replies found.
+            </div>
+            <div>
+              Be the first to reply this post.
             </div>
           </div>
-        </div>
-        {comments.map((comment) => (
-            <Comment key={comment.id} comment={comment} post={post}/>
-        ))}
+        }
         <NewComment post={post} />
 
-        <Link to={post.postsPath}>Back</Link>
+        <div className="down-buttons">
+          <Link to={post.postsPath}className="back-buttom">
+            <div className="image"/>
+          </Link>
+        </div>
       </div>
     )
   }

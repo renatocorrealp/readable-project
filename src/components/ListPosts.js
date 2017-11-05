@@ -64,32 +64,44 @@ class ListPosts extends Component{
                   </div>
                 ))}
               </div>
-              <div align="right" className="filters">
-                <div className="width-13-percent message-sort">
-                  <div className="margin-top-15">
-                    Sorted By
+
+              { (posts && posts.length > 0) &&
+                <div>
+                  <div align="right" className="filters">
+                    <div className="width-13-percent message-sort">
+                      <div className="margin-top-15">
+                        Sorted By
+                      </div>
+                      <div className="margin-left-2-percent">
+                        <Select
+                          options={orderTypes}
+                          className="width-100-percent sort-selector"
+                          searchable={false}
+                          onChange={(event) => {
+                            if(event){
+                              this.orderPosts(event.value)
+                            }
+                          }}
+                          value={orderSelected}/>
+                      </div>
+                    </div>
                   </div>
-                  <div className="margin-left-2-percent">
-                    <Select
-                      options={orderTypes}
-                      className="width-100-percent sort-selector"
-                      searchable={false}
-                      onChange={(event) => {
-                        if(event){
-                          this.orderPosts(event.value)
-                        }
-                      }}
-                      value={orderSelected}/>
+                  <div className="posts-details">
+                    {posts.map((post) =>(
+                        <Post key={post.id} post={post}/>
+                    ))}
+
                   </div>
                 </div>
-              </div>
+              }
 
-              <div className="posts-details">
-                {posts.map((post) =>(
-                    <Post key={post.id} post={post}/>
-                ))}
-                <NewPost category={category}/>
-              </div>
+              {(!posts || posts.length < 1) &&
+                <div className="no-message-found">
+                  No post found
+                </div>
+              }
+
+              <NewPost category={category}/>
             </div>
           )}
         />
@@ -116,7 +128,6 @@ const mapStateToProps = ({posts, categories}) =>{
       return !post.deleted;
     }),
     categories
-
   };
 }
 
