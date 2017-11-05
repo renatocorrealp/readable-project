@@ -1,5 +1,6 @@
 .post-item{
-  border: 1px solid #e4e6e8;
+  border-bottom: 1px solid #e4e6e8;
+  border-top: 1px solid #e4e6e8;
   width: 100%;
 }
 
