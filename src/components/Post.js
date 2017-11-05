@@ -5,6 +5,7 @@ import { turnOnOffEditPost, editPost, removePost, votePost, removePostVote  } fr
 import { connect } from 'react-redux';
 import { updatePost, deletePost, updatePostVote, DOWN_VOTE, UP_VOTE } from '../utils/apis';
 import '../style/Post.css';
+import { formatTimestamp } from '../utils/commons';
 class Post extends Component{
     turnOnOffEditPost = (postId) => {
       const { turnOnOffEditPost } = this.props;
@@ -41,31 +42,45 @@ class Post extends Component{
           {!post.edit &&
             <div className="post-view">
               <div className="post-description">
-                <div className="post-actions">
-                    <div className="post-score">
-                      <div>{post.voteScore}</div>
-                      <div>votes</div>
-                      <div className="post-like-actions">
-                        <div className="like" onClick={() => this.votePost(post.id)}></div>
-                        <div className="unlike" onClick={() => this.removePostVote(post.id)}></div>
+                <div className="post-headers">
+                  <div className="post-actions">
+                      <div className="post-score">
+                        <div>{post.voteScore}</div>
+                        <div>votes</div>
+                        <div className="post-like-actions">
+                          <div className="like" onClick={() => this.votePost(post.id)}></div>
+                          <div className="unlike" onClick={() => this.removePostVote(post.id)}></div>
+                        </div>
                       </div>
+                      <div className="post-score">
+                        <div>{post.commentCount}</div>
+                        <div>comments</div>
+                      </div>
+                  </div>
+                  <div className="post-title">
+                    <div className="post-link">
+                      <Link to={post.commentsPath}>
+                        {post.title}
+                      </Link>
                     </div>
-                    <div className="post-score">
-                      <div>{post.commentCount}</div>
-                      <div>comments</div>
-                    </div>
-                </div>
-                <div className="post-title">
-                  <Link to={post.commentsPath}>
-                    {post.title}
-                  </Link>
-                  <div className="post-message">
-                    {post.body}
+                  </div>
+                  <div className="post-actions">
+                    <div className="pencil" onClick={() => this.turnOnOffEditPost(post.id)}></div>
+                    <div className="trash" onClick={() => this.removePost(post.id)}></div>
                   </div>
                 </div>
-                <div className="post-actions">
-                  <div className="pencil" onClick={() => this.turnOnOffEditPost(post.id)}></div>
-                  <div className="trash" onClick={() => this.removePost(post.id)}></div>
+                <div className="post-body">
+                  <div className="post-message">
+                    <div className="post-author">
+                      {post.author} says:
+                    </div>
+                    <div>
+                    {post.body}
+                    </div>
+                  </div>
+                  <div className="post-details">
+                    { formatTimestamp(post.timestamp) }
+                  </div>
                 </div>
               </div>
             </div>

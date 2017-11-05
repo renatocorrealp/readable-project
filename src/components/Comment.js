@@ -4,6 +4,7 @@ import { removeComment, voteComment, removeCommentVote, editComment, turnOnOffEd
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../style/Comment.css';
+import { formatTimestamp } from '../utils/commons';
 class Comment extends Component{
     state = {
       editState:false
@@ -60,11 +61,19 @@ class Comment extends Component{
               </div>
 
               <div className="comment-message">
-                {comment.body}
+                <div className="comment-author">
+                  {comment.author} says:
+                </div>
+                <div>
+                  {comment.body}
+                </div>
               </div>
               <div className="comment-actions">
                 <div className="pencil" onClick={() => this.turnOnOffEditComment(comment.id)}></div>
                 <div className="trash" onClick={() => this.removeComment(comment.id)}></div>
+              </div>
+              <div className="comment-details">
+                {formatTimestamp(comment.timestamp)}
               </div>
             </div>}
           {comment.edit &&

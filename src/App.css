@@ -34,8 +34,8 @@
 }
 
 .pencil{
-  background-image: url("./images/pencil2.png");
-  background-size: 30px;
+  background-image: url("./images/pencil.png");
+  background-size: 25px;
   width: 30px;
   height: 30px;
   margin: 5px;
@@ -43,7 +43,10 @@
   cursor: pointer;
 }
 
-
+.no-message-found{
+  padding: 50px;
+  font-size: 20px;
+}
 /* Posts Form*/
 .post-form{
   width: 50%;
@@ -62,6 +65,9 @@
     background: #d2d9dd;
 }
 
+.post-form select{
+  text-transform: capitalize;
+}
 
 .post-form input[type="text"],
 .post-form textarea,
@@ -83,6 +89,10 @@
     -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
     box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
     margin-bottom: 30px;
+}
+
+.post-form .invalid-field{
+  border: 1px solid red !important;
 }
 
 .post-form input[type="submit"],
@@ -112,6 +122,10 @@
   font-size: 25px;
   margin-bottom: 20px;
   font-weight: bold;
+}
+
+.teste{
+  background-color: red;
 }
 
 /* Generic */
