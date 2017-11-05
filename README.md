@@ -27,8 +27,11 @@ O projeto possui as seguintes funcionalidades:
 **Instalação**
 
  1. Faça o download ou clone do projeto uma pasta local:
-    Link para download: https://github.com/renatocorrealp/readable-project
-    ou
+
+		Link para download: https://github.com/renatocorrealp/readable-project
+
+  ou
+
 		git clone https://github.com/renatocorrealp/readable-project.git
  2. Na pasta do projeto, execute:
 
