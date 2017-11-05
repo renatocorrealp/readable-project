@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import { RECEIVE_CATEGORIES, RECEIVE_POSTS, RECEIVE_COMMENTS, ADD_COMMENT, REMOVE_COMMENT,
-        ADD_POST, REMOVE_POST, VOTE_POST, REMOVE_POST_VOTE, VOTE_COMMENT, REMOVE_COMMENT_VOTE, EDIT_COMMENT,
-        EDIT_POST, TURN_ON_OFF_EDIT_POST, TURN_ON_OFF_EDIT_COMMENT } from '../actions';
+        ADD_POST, REMOVE_POST, REMOVE_POST_VOTE, VOTE_POST, VOTE_COMMENT,
+        REMOVE_COMMENT_VOTE, EDIT_COMMENT, EDIT_POST, TURN_ON_OFF_EDIT_POST, TURN_ON_OFF_EDIT_COMMENT }
+        from '../actions';
 
 const categories = (state = [], action) =>{
   switch(action.type){
@@ -59,8 +60,7 @@ const posts = (state = [], action) => {
 
         return post;
       });
-    }
-    case VOTE_POST: {
+    } case VOTE_POST: {
       return state.map(post => {
 
         if(post.id === action.postId){

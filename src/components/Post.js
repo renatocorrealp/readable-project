@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { turnOnOffEditPost, editPost, removePost, votePost, removePostVote  } from '../actions';
 import { connect } from 'react-redux';
 import { updatePost, deletePost, updatePostVote, DOWN_VOTE, UP_VOTE } from '../utils/apis';
+import '../style/Post.css';
 class Post extends Component{
     turnOnOffEditPost = (postId) => {
       const { turnOnOffEditPost } = this.props;
@@ -38,30 +39,39 @@ class Post extends Component{
       return(
         <div className="post-item">
           {!post.edit &&
-            <div>
-              <Link to={post.commentsPath}>
-                <div>
-                  <div>{post.title}</div>
-                  <div>{post.body}</div>
+            <div className="post-view">
+              <div className="post-description">
+                <div className="post-actions">
+                    <div className="post-score">
+                      <div>{post.voteScore}</div>
+                      <div>votes</div>
+                      <div className="post-like-actions">
+                        <div className="like" onClick={() => this.votePost(post.id)}></div>
+                        <div className="unlike" onClick={() => this.removePostVote(post.id)}></div>
+                      </div>
+                    </div>
+                    <div className="post-score">
+                      <div>{post.commentCount}</div>
+                      <div>comments</div>
+                    </div>
                 </div>
-              </Link>
-              <input type="button" value="Edit" onClick={() => this.turnOnOffEditPost(post.id)} />
-
-              <div>
-                {post.voteScore}
-                <input type="button" value="Vote" onClick={() => this.votePost(post.id)}/>
-                <input type="button" value="Remove vote" onClick={() => this.removePostVote(post.id)}/>
-                <input type="button" value="Remove" onClick={() => this.removePost(post.id)}/>
+                <div className="post-title">
+                  <Link to={post.commentsPath}>
+                    {post.title}
+                  </Link>
+                </div>
+                <div className="pencil" onClick={() => this.turnOnOffEditPost(post.id)}></div>
+                <div className="trash" onClick={() => this.removePost(post.id)}></div>
               </div>
             </div>
           }
           {post.edit &&
-            <div>
+            <div className="new-post-form">
               <div>
                 <input type="text" defaultValue={post.title} onChange={(e) => titleEdited=e.target.value}></input>
               </div>
               <textarea type="text" defaultValue={post.body} onChange={(e) => bodyEdited=e.target.value}></textarea>
-              <div>
+              <div className="edit-buttons">
                 <input type="button" value="Save" onClick={() => this.editPost(post.id, titleEdited, bodyEdited)} />
                 <input type="button" value="Cancelar" onClick={() => this.turnOnOffEditPost(post.id)} />
               </div>

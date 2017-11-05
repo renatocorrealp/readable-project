@@ -1,0 +1,53 @@
+.post-item{
+  border: 1px solid #e4e6e8;
+}
+
+.post-view .post-score{
+  margin-top: 15px;
+  height: 100%;
+  color: #6a737c;
+}
+.post-view .unlike{
+  margin-top: 8px;
+}
+
+.post-view .post-actions{
+  width: 30%;
+  display: inline-flex;
+}
+
+.post-view .pencil{
+  margin-top: 20px;
+}
+
+.post-view .trash{
+  margin-top: 20px;
+}
+
+.post-view .post-like-actions{
+  display: inline-flex;
+  padding: 10px;
+}
+
+.post-view .post-title{
+  width: 70%;
+  vertical-align: middle;
+  line-height: 4;
+  color: #005999;
+}
+
+.post-view .post-title a:visited {
+  text-decoration: none;
+  color: #005999;
+}
+
+.post-view .post-title a:link {
+  text-decoration: none;
+  color: #005999;
+}
+
+.post-view .post-description{
+  width: 60%;
+  margin: auto;
+  display: inline-flex;
+}

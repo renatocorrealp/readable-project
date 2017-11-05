@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class PostComment extends Component{
+class NewComment extends Component{
   executeAction(e){
     const { action } = this.props;
     const textarea = e.target.querySelector("textarea");
@@ -29,4 +29,4 @@ class PostComment extends Component{
   }
 }
 
-export default PostComment;
+export default NewComment;

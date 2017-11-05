@@ -1,6 +1,103 @@
-.list-posts {
-
+/* Categories list */
+.categories{
+  width: 70%;
+  margin: 10px auto auto;
+  align-items: center;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  background-color: #f4f7f8;
 }
-.post-item{
-   border: 1px solid;
+
+.categories .category-name{
+  width: 100%;
+  vertical-align: middle;
+  line-height: 2;
+  font-size: 20px;
+  font-weight: bold;
+  color: #005999;
+}
+
+.categories .category-name a:visited {
+  text-decoration: none;
+  color: #005999;
+}
+
+.categories .category-name a:link {
+  text-decoration: none;
+  color: #005999;
+}
+
+/* Sort Selector*/
+.sort-selector{
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+
+.sort-selector .Select-menu{
+  z-index: 100;
+}
+
+.sort-selector .Select-menu-outer {
+  background-color: white;
+  box-shadow: 0 6px 6px rgba(0,0,0,0.16), 3px 6px 6px rgba(0,0,0,0.23);
+  position: absolute;
+}
+
+.sort-selector .Select-menu-outer .Select-menu div:hover{
+  background-color: #e8eeef;
+}
+
+.sort-selector .is-selected{
+  background-color: #e8eeef;
+}
+
+.sort-selector .Select-option{
+  color: #6a737c;
+  width: 160px;
+  border: 1px green;
+  border-style: none none dotted;
+}
+
+.sort-selector .Select-control{
+  width: 100%;
+  height: 100%;
+}
+
+.sort-selector .Select-clear-zone,
+.sort-selector .Select-arrow{
+  display: none;
+}
+
+.message-sort{
+  background-color: #f4f7f8;
+  margin-right: 15%;
+  color: #8a97a0;
+  font-weight: 400;
+  text-align: center;
+  float: right;
+}
+
+.filters{
+  text-align: end;
+}
+
+.posts-details{
+  clear: both;
+}
+
+.new-post-form #categorySelect{
+  width: 30%;
+  float: left;
+}
+
+.new-post-form .edit-buttons{
+  display: inline-flex;
+}
+
+.new-post-form .edit-buttons input{
+  width: auto;
+  margin: 0 30px;
+  font-size: 15px;
 }

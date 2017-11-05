@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom';
 import {getCommentsByPost, sendComment} from '../utils/apis';
 import {receiveComments, addComment} from '../actions';
 import crypto from 'crypto-browserify';
-import PostComment from './PostComment';
+import NewComment from './NewComment';
 import Comment from './Comment';
 class Comments extends Component{
   componentDidMount = () => {
@@ -41,7 +41,7 @@ class Comments extends Component{
             <Comment comment={comment}/>
           </div>
         ))}
-        <PostComment action={this.saveComment} />
+        <NewComment action={this.saveComment} />
 
         <Link to={post.postsPath}>Back</Link>
       </div>
