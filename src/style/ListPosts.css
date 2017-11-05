@@ -87,17 +87,15 @@
   clear: both;
 }
 
-.new-post-form #categorySelect{
+/* New post form & */
+.post-form #categorySelect{
   width: 30%;
   float: left;
 }
 
-.new-post-form .edit-buttons{
-  display: inline-flex;
-}
-
-.new-post-form .edit-buttons input{
-  width: auto;
-  margin: 0 30px;
-  font-size: 15px;
+.post-form .category-title{
+  text-align: left;
+  color:#8a97a0;
+  font-size: 16px;
+  margin: 0 3px 5px;
 }

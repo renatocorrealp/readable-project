@@ -3,13 +3,15 @@ import { deleteComment, updateCommentVote, updateComment, UP_VOTE, DOWN_VOTE } f
 import { removeComment, voteComment, removeCommentVote, editComment, turnOnOffEditComment } from '../actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import '../style/Comment.css';
 class Comment extends Component{
     state = {
       editState:false
     }
 
     removeComment = (commentId) => {
-      const { removeComment } = this.props;
+      const { removeComment, post } = this.props;
+      post.commentCount--;
       removeComment(commentId);
     }
 
@@ -43,25 +45,36 @@ class Comment extends Component{
       const {editState} = this.state;
       let bodyEdited = comment.body;
       return(
-        <div>
+        <div className="comment-item">
           {!comment.edit &&
-            <div>
-            <div>
-              {comment.body}
-            </div>
-            <input type="button" value="Edit" onClick={() => this.turnOnOffEditComment(comment.id)} />
-            <div>
-              {comment.voteScore}
-              <input type="button" value="Vote" onClick={() => this.voteComment(comment.id)}/>
-              <input type="button" value="Remove vote" onClick={() => this.removeCommentVote(comment.id)}/>
-              <input type="button" value="Remove" onClick={() => this.removeComment(comment.id)} />
-            </div>
+            <div className="comment-view">
+              <div className="comment-actions">
+                  <div className="comment-score">
+                    <div>{comment.voteScore}</div>
+                    <div>votes</div>
+                    <div className="comment-like-actions">
+                      <div className="like" onClick={() => this.voteComment(comment.id)}></div>
+                      <div className="unlike" onClick={() => this.removeCommentVote(comment.id)}></div>
+                    </div>
+                  </div>
+              </div>
+
+              <div className="comment-message">
+                {comment.body}
+              </div>
+              <div className="comment-actions">
+                <div className="pencil" onClick={() => this.turnOnOffEditComment(comment.id)}></div>
+                <div className="trash" onClick={() => this.removeComment(comment.id)}></div>
+              </div>
             </div>}
           {comment.edit &&
-            <div>
+            <div className="post-form">
+              <div>Editing post...</div>
               <textarea type="text" defaultValue={comment.body} onChange={(e) => bodyEdited=e.target.value}></textarea>
-              <input type="button" value="Salvar" onClick={() => { this.editComment(comment.id, bodyEdited);this.showEdit(editState);}} />
-
+              <div className="edit-buttons">
+                <input type="button" value="Salvar" onClick={() => { this.editComment(comment.id, bodyEdited);this.showEdit(editState);}} />
+                <input type="button" value="Cancelar" onClick={() => this.turnOnOffEditComment(comment.id)} />
+              </div>
             </div>
           }
 

@@ -44,8 +44,8 @@
 }
 
 
-/* New post Form*/
-.new-post-form{
+/* Posts Form*/
+.post-form{
   width: 50%;
   display: block;
   margin: auto;
@@ -56,16 +56,16 @@
   border-radius: 8px;
 }
 
-.new-post-form input[type="text"]:focus,
-.new-post-form textarea:focus,
-.new-post-form select:focus {
+.post-form input[type="text"]:focus,
+.post-form textarea:focus,
+.post-form select:focus {
     background: #d2d9dd;
 }
 
 
-.new-post-form input[type="text"],
-.new-post-form textarea,
-.new-post-form select{
+.post-form input[type="text"],
+.post-form textarea,
+.post-form select{
     font-family: Georgia, "Times New Roman", Times, serif;
     background: rgba(255,255,255,.1);
     border: none;
@@ -85,8 +85,8 @@
     margin-bottom: 30px;
 }
 
-.new-post-form input[type="submit"],
-.new-post-form input[type="button"]{
+.post-form input[type="submit"],
+.post-form input[type="button"]{
     position: relative;
     display: block;
     padding: 19px 39px 18px 39px;
@@ -103,12 +103,12 @@
     width: 30%;
 }
 
-.new-post-form input[type="submit"]:hover,
-.new-post-form input[type="button"]:hover{
+.post-form input[type="submit"]:hover,
+.post-form input[type="button"]:hover{
     background: #109177;
 }
 
-.new-post-form .title{
+.post-form .title{
   font-size: 25px;
   margin-bottom: 20px;
   font-weight: bold;

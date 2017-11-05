@@ -59,14 +59,19 @@ class Post extends Component{
                   <Link to={post.commentsPath}>
                     {post.title}
                   </Link>
+                  <div className="post-message">
+                    {post.body}
+                  </div>
                 </div>
-                <div className="pencil" onClick={() => this.turnOnOffEditPost(post.id)}></div>
-                <div className="trash" onClick={() => this.removePost(post.id)}></div>
+                <div className="post-actions">
+                  <div className="pencil" onClick={() => this.turnOnOffEditPost(post.id)}></div>
+                  <div className="trash" onClick={() => this.removePost(post.id)}></div>
+                </div>
               </div>
             </div>
           }
           {post.edit &&
-            <div className="new-post-form">
+            <div className="post-form">
               <div>
                 <input type="text" defaultValue={post.title} onChange={(e) => titleEdited=e.target.value}></input>
               </div>

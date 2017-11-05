@@ -18,3 +18,26 @@ export const orderMessages = (posts, orderType) => {
 
   return posts;
 }
+
+export const orderTypes = [
+  {
+    label: 'None',
+    value: ORDER_NONE
+  },
+  {
+    label: 'Score Ascending',
+    value: ORDER_SCORE_ASC
+  },
+  {
+    label: 'Score Descending',
+    value: ORDER_SCORE_DESC
+  },
+  {
+    label: 'Time Ascending',
+    value: ORDER_TIME_ASC
+  },
+  {
+    label: 'Time Descending',
+    value: ORDER_TIME_DESC
+  }
+];

@@ -1,47 +1,67 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import {getCommentsByPost, sendComment} from '../utils/apis';
-import {receiveComments, addComment} from '../actions';
-import crypto from 'crypto-browserify';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { getCommentsByPost } from '../utils/apis';
+import { receiveComments } from '../actions';
 import NewComment from './NewComment';
 import Comment from './Comment';
+import Post from './Post';
+import '../style/ListComments.css';
+import Select from 'react-select';
+import { orderTypes, orderMessages, ORDER_NONE } from '../utils/commons';
 class Comments extends Component{
-  componentDidMount = () => {
-      const { post } = this.props;
-      this.props.fetchComments(post.id);
+  state = {
+    orderSelected: ORDER_NONE
   }
 
-  saveComment = (commentMsg) => {
-    const { addComment, post } = this.props;
+  componentDidMount = () => {
+      const { post, fetchComments } = this.props;
+      fetchComments(post.id);
+  }
 
-    // TODO pegar username
-    const username = "rcorrea";
-    // TODO colocar geração de id em componente aparte
-    const id = crypto.createHash('sha1').update(Date.now() + username).digest('hex');
+  orderComments = (orderType) => {
+    const {comments, updateComments, fetchComments, post} = this.props;
 
-    let newComment = {};
-    newComment.id = id;
-    newComment.parentId = post.id;
-    newComment.timestamp = Date.now();
-    newComment.body = commentMsg;
-    newComment.author = username;
+    this.setState({orderSelected: orderType});
 
-    addComment(newComment);
+    if(orderType === ORDER_NONE){
+      fetchComments(post.id);
+    } else {
+      updateComments(orderMessages(comments, orderType));
+    }
   }
 
   render(){
     const { comments } = this.props;
     const { post } = this.props;
+    const { orderSelected } = this.state;
     return(
       <div>
-        {comments.map((comment) => (
-          <div key={comment.id}>
-            <Comment comment={comment}/>
+        <Post post={post}/>
+        <div align="right" className="filters">
+          <div className="width-13-percent message-sort">
+            <div className="margin-top-15">
+              Sorted By
+            </div>
+            <div className="margin-left-2-percent">
+              <Select
+                options={orderTypes}
+                className="width-100-percent sort-selector"
+                searchable={false}
+                onChange={(event) => {
+                  if(event){
+                    this.orderComments(event.value)
+                  }
+                }}
+                value={orderSelected}/>
+            </div>
           </div>
+        </div>
+        {comments.map((comment) => (
+            <Comment key={comment.id} comment={comment} post={post}/>
         ))}
-        <NewComment action={this.saveComment} />
+        <NewComment post={post} />
 
         <Link to={post.postsPath}>Back</Link>
       </div>
@@ -56,7 +76,7 @@ const mapStateToProps = ({comments}) =>{
 const mapDispatchToProps = (dispatch) =>{
   return {
     fetchComments: (postId) => getCommentsByPost(postId).then(comments => dispatch(receiveComments(comments))),
-    addComment: (comment) => sendComment(comment).then(newComment => dispatch(addComment(newComment)))
+    updateComments: (comments) => dispatch(receiveComments(comments))
   }
 }
 
