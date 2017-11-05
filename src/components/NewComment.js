@@ -2,43 +2,78 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendComment } from '../utils/apis';
 import { addComment } from '../actions';
-import crypto from 'crypto-browserify';
+import { getNewId } from '../utils/commons';
 
 class NewComment extends Component{
+
+  state = {
+    invalidAuthor: false,
+    invalidMessage: false
+  }
+
   saveComment = (e) => {
     const { addComment, post } = this.props;
 
     // prevent form to submit
     e.preventDefault();
 
-    const textarea = e.target.querySelector("textarea");
-    const commentMsg = textarea.value;
+    const messageTextarea = e.target.querySelector("#comment-message");
+    const authorInput = e.target.querySelector("#comment-author");
 
-    // TODO pegar username
-    const username = "rcorrea";
+    const commentMsg = messageTextarea.value;
+    const author = authorInput.value;
 
-    // TODO colocar geração de id em componente aparte
-    const id = crypto.createHash('sha1').update(Date.now() + username).digest('hex');
+    if(!this.validateFields(author, commentMsg)){
+      return;
+    }
+
+    const id = getNewId(author);
 
     let newComment = {};
     newComment.id = id;
     newComment.parentId = post.id;
     newComment.timestamp = Date.now();
     newComment.body = commentMsg;
-    newComment.author = username;
+    newComment.author = author;
 
     addComment(newComment);
     post.commentCount++;
-    textarea.value = "";
+    messageTextarea.value = "";
+    authorInput.value = "";
+  }
+
+  validateFields = (author, commentMsg) => {
+    let invalidAuthor = false;
+    let invalidMessage = false;
+    if(!author){
+      invalidAuthor = true;
+    }
+
+    if(!commentMsg){
+      invalidMessage = true;
+    }
+
+    this.setState({
+      invalidAuthor,
+      invalidMessage
+    })
+
+    return !(invalidMessage || invalidAuthor);
   }
 
   render(){
+    const { invalidAuthor, invalidMessage } = this.state;
     return(
       <div className="post-form">
-        <div className="title">Reply</div>
+        <div className="title" >Reply</div>
         <form onSubmit={(event)=> this.saveComment(event)}>
           <div>
-            <textarea rows="5" placeholder="Write reply" type="text" />
+            <input placeholder="Input your name" type="text" id="comment-author"
+              className={invalidAuthor ? "invalid-field" : ""}/>
+          </div>
+          <div>
+            <textarea id="comment-message" className={invalidMessage ? "invalid-field" : ""}
+                rows="5" placeholder="Write reply" type="text" />
           </div>
           <div>
             <input type="submit" value="Send"/>

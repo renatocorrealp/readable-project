@@ -15,6 +15,16 @@
   font-size: 20px;
   font-weight: bold;
   color: #005999;
+  text-transform: capitalize;
+}
+
+.categories .category-name a{
+  display: block;
+  width: 100%;
+}
+
+.categories .category-name a:hover{
+  background-color: #63819E;
 }
 
 .categories .category-name a:visited {
@@ -98,4 +108,24 @@
   color:#8a97a0;
   font-size: 16px;
   margin: 0 3px 5px;
+}
+
+/* Back Buttom */
+.down-buttons{
+  display: inline-flex;
+}
+
+.back-buttom{
+  width: 60px;
+  height: 60px;
+  margin: 5px;
+}
+
+.back-buttom .image{
+  background-image: url("../images/arrow-left.png");
+  background-size: 60px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
 }

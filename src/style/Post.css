@@ -7,6 +7,7 @@
   margin-top: 15px;
   height: 100%;
   color: #6a737c;
+  width: 50%;
 }
 
 .post-view .unlike{
@@ -14,7 +15,7 @@
 }
 
 .post-view .post-actions{
-  width: 10%;
+  width: 20%;
   display: inline-flex;
 }
 
@@ -32,10 +33,17 @@
 }
 
 .post-view .post-title{
-  width: 80%;
-  vertical-align: middle;
-  line-height: 2;
-  color: #005999;
+  width: 60%;
+  font-size: 20px;
+  display: inline-block;
+  background-color: #f4f7f8;
+  border-radius: 8px 8px 0 0;
+  border-left: 1px dotted;
+  border-right: 1px dotted;
+}
+
+.post-view .post-title:hover{
+  background-color: #63819E;
 }
 
 .post-view .post-title a:visited {
@@ -43,27 +51,63 @@
   color: #005999;
 }
 
+.post-view .post-link{
+  height: 100%;
+  display: block;
+}
+.post-view .post-title a{
+  display: block;
+
+  position: relative;
+  display: block;
+  padding: 40px;
+}
+
 .post-view .post-title a:link {
-  display: inline-block;
-  width: 100%;
   text-decoration: none;
   color: #005999;
 }
 
+.post-view .post-body{
+  width: 100%;
+  background-color: #E8E8E8;
+  border-radius: 8px;
+  margin-bottom: 2%;
+  border: 1px dotted;
+}
+.post-headers{
+  width: 100%;
+  display: inline-flex;
+}
 .post-view .post-description{
   width: 70%;
   margin: auto;
-  display: inline-flex;
+}
+
+.post-view .post-message .post-author{
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .post-view .post-message{
   width: 100%;
-  display: inline-block;
   text-align: justify;
   width: 70%;
   font-size: 15px;
   vertical-align: middle;
   color: #8a97a0;
+  line-height: normal;
+  padding: 30px;
+  margin: auto;
+}
+
+.post-view .post-details{
+  font-size: 10px;
+  text-align: right;
+  margin-top: 20px;
+  color: #005999;
+  padding: 15px;
 }
 
 /* Edit form */

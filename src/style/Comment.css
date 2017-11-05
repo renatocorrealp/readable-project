@@ -3,6 +3,9 @@
   border-width: 0 0 1px 0;
   width: 60%;
   margin: auto;
+  background-color: #eff0f1;
+  border-radius: 8px;
+  border: 1px solid;
 }
 
 .comment-view .unlike{
@@ -30,12 +33,25 @@
 .comment-view .comment-message{
   text-align: justify;
   width: 70%;
-  margin-left: 20px;
-  margin-right: 20px;
   font-size: 15px;
   vertical-align: middle;
   color: #8a97a0;
   display: inline-block;
+  padding: 30px;
+}
+
+.comment-view .comment-message .comment-author{
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.comment-view .comment-details{
+  font-size: 10px;
+  color: #005999;
+  text-align: right;
+  margin-top: 20px;
+  padding: 15px;
 }
 
 /* Edit form */
