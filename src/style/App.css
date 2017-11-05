@@ -3,7 +3,7 @@
 }
 
 .like{
-  background-image: url("./images/like.ico");
+  background-image: url("../images/like.ico");
   background-size: 25px;
   width: 25px;
   height: 25px;
@@ -14,7 +14,7 @@
 
 
 .unlike{
-  background-image: url("./images/unlike.ico");
+  background-image: url("../images/unlike.ico");
   background-size: 25px;
   width: 25px;
   height: 25px;
@@ -24,7 +24,7 @@
 }
 
 .trash{
-  background-image: url("./images/trash.png");
+  background-image: url("../images/trash.png");
   background-size: 25px;
   width: 25px;
   height: 25px;
@@ -34,7 +34,7 @@
 }
 
 .pencil{
-  background-image: url("./images/pencil.png");
+  background-image: url("../images/pencil.png");
   background-size: 25px;
   width: 30px;
   height: 30px;

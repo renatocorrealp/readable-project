@@ -16,8 +16,8 @@ class Comments extends Component{
   }
 
   componentDidMount = () => {
-      const { post, fetchComments } = this.props;
-      fetchComments(post.id);
+    const { post, fetchComments } = this.props;
+    fetchComments(post.id);
   }
 
   orderComments = (orderType) => {
@@ -62,7 +62,7 @@ class Comments extends Component{
             </div>
 
             {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} post={post}/>
+              <Comment key={comment.id} comment={comment} post={post}/>
             ))}
           </div>
         }

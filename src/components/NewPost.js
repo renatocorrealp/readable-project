@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { sendPost } from '../utils/apis';
 import { addPost } from '../actions';
 import { connect } from 'react-redux';
-import { ROOT_PATH } from '../App';
+import { ROOT_PATH } from './App';
 import { withRouter } from 'react-router-dom';
 import { getNewId } from '../utils/commons';
 
