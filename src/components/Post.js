@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { turnOnOffEditPost, editPost, removePost, votePost, removePostVote  } from '../actions';
 import { connect } from 'react-redux';
 import { updatePost, deletePost, updatePostVote, DOWN_VOTE, UP_VOTE } from '../utils/apis';
@@ -19,8 +18,10 @@ class Post extends Component{
   }
 
   removePost = (postId) => {
+    const { history } = this.props;
     const { removePost } = this.props;
     removePost(postId);
+    history.push('/');
   }
 
   removePostVote = (postId) => {

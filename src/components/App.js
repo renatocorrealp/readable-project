@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import '../style/App.css';
-import {getAllCategories} from '../utils/apis';
-import {receiveCategories} from '../actions';
-import {Route}from 'react-router-dom';
-import {connect} from 'react-redux';
+import { getAllCategories } from '../utils/apis';
+import { receiveCategories } from '../actions';
+import { Route, Switch }from 'react-router-dom';
+import { connect } from 'react-redux';
 import ListPosts from './ListPosts';
 import { withRouter } from 'react-router-dom';
-
+import PageNotFound from './PageNotFound';
 export const ROOT_PATH = {name:'all', path: '/'};
 
 class App extends Component {
@@ -19,26 +19,27 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Route
-          exact path="/"
-          render={() => (
-            <ListPosts category={ROOT_PATH}/>
-          )}
-          />
-        {categories.map((category) =>(
+        <Switch>
           <Route
-            key={category.name}
-            path={category.path}
+            exact path="/"
             render={() => (
-              <ListPosts category={category}/>
+              <ListPosts category={ROOT_PATH}/>
             )}
             />
-        )
-      )}
-
-    </div>
-  );
-}
+          {categories.map((category) =>(
+              <Route
+                key={category.name}
+                path={category.path}
+                render={() => (
+                  <ListPosts category={category}/>
+                )}
+                />
+          ))}
+          <Route component={ PageNotFound }/>
+        </Switch>
+      </div>
+    );
+  }
 }
 
 const mapDispatchToProps = (dispatch) =>{

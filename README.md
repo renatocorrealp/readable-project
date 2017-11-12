@@ -32,11 +32,11 @@ O projeto possui as seguintes funcionalidades:
 
 1. Faça o download ou clone do projeto uma pasta local:
 
-  Link para download: https://github.com/renatocorrealp/readable-project
+ [ Link para download do projeto back-end](https://github.com/renatocorrealp/readable-project)
 
   ou
 
-  git clone https://github.com/udacity/reactnd-project-readable-starter.git
+	    git clone https://github.com/udacity/reactnd-project-readable-starter.git
 
 
 2. Acesse a pasta "api-server" do projeto e execute:
@@ -58,7 +58,7 @@ O projeto possui as seguintes funcionalidades:
 
  1. Faça o download ou clone do projeto uma pasta local:
 
-		Link para download: https://github.com/renatocorrealp/readable-project
+	[Link para download do projeto readable](https://github.com/renatocorrealp/readable-project)
 
   ou
 

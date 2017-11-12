@@ -1,0 +1,21 @@
+.page-not-found{
+  text-align: center;
+  padding: 100px;
+}
+
+.page-not-found .message{
+  padding: 30px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.page-not-found .sad-frog{
+  background-image: url("../images/sad-frog.jpg");
+  background-size: 150px;
+  width: 150px;
+  height: 140px;
+  margin: auto;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  border-radius: 8px;
+}
