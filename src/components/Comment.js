@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { deleteComment, updateCommentVote, updateComment, UP_VOTE, DOWN_VOTE } from '../utils/apis';
-import { removeComment, voteComment, removeCommentVote, editComment, turnOnOffEditComment } from '../actions';
+import { decreaseCommentVote, excludeComment, fetchComment, increaseCommentVote, turnOnOffEditComment } from '../actions/CommentActions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import '../style/Comment.css';
 import { formatTimestamp } from '../utils/commons';
+
 class Comment extends Component{
   state = {
     editState:false
@@ -99,10 +99,10 @@ class Comment extends Component{
 
   const mapDispatchToProps = (dispatch) =>{
     return {
-      removeComment: (commentId) => deleteComment(commentId).then(() => dispatch(removeComment(commentId))),
-      voteComment: (commentId) => updateCommentVote(commentId, UP_VOTE).then(() => dispatch(voteComment(commentId))),
-      removeCommentVote: (commentId) => updateCommentVote(commentId, DOWN_VOTE).then(() => dispatch(removeCommentVote(commentId))),
-      editComment: (commentId, body, timestamp) => updateComment(commentId, body, timestamp).then(() => dispatch(editComment(commentId, body, timestamp))),
+      removeComment: (commentId) => excludeComment(dispatch, commentId),
+      voteComment: (commentId) => increaseCommentVote(dispatch, commentId),
+      removeCommentVote: (commentId) => decreaseCommentVote(dispatch, commentId),
+      editComment: (commentId, body, timestamp) => fetchComment(dispatch, commentId, body, timestamp),
       turnOnOffEditComment: (postId) => dispatch(turnOnOffEditComment(postId))
 
     }

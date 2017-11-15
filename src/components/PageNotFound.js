@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React from 'react';
 import '../style/PageNotFound.css';
 function PageNotFound(){
@@ -7,7 +8,10 @@ function PageNotFound(){
         <div> OH NO!</div>
         <div>PAGE NOT FOUND :/ </div>
       </div>
-      <div className="sad-frog"></div>
+      <Link to="/" className="home-link">
+        <div className="sad-frog"></div>
+      </Link>
+
     </div>
   )
 }

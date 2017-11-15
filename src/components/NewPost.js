@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { sendPost } from '../utils/apis';
-import { addPost } from '../actions';
+import { savePost } from '../actions/PostActions';
 import { connect } from 'react-redux';
 import { ROOT_PATH } from './App';
 import { withRouter } from 'react-router-dom';
@@ -51,6 +50,7 @@ class NewPost extends Component{
     addPost(newPost);
     bodyTextArea.value = "";
     titleInput.value = "";
+    authorInput.value = "";
   }
 
   validateFields = (postAuthor, postTitle, postBody) => {
@@ -120,7 +120,7 @@ const mapStateToProps = ({ categories }) =>{
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    addPost: (post) => sendPost(post).then(response => dispatch(addPost(response)))
+    addPost: (post) => savePost(dispatch, post)
   }
 }
 

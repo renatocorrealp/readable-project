@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch, withRouter } from 'react-router-dom';
-import { getAllPosts, getPostsByCategory } from '../utils/apis';
-import { receivePosts } from '../actions';
+import { receivePosts, fetchAllPosts, fetchPosts } from '../actions/PostActions';
+
 import ListComments from './ListComments';
 import Post from './Post';
 import '../style/ListPosts.css';
@@ -134,8 +134,8 @@ const mapStateToProps = ({posts, categories}) =>{
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    fetchPosts: (category) => getPostsByCategory(category).then(posts => dispatch(receivePosts(posts))),
-    fetchAllPosts: (category) => getAllPosts().then(posts => dispatch(receivePosts(posts))),
+    fetchPosts: (category) => fetchPosts(dispatch, category),
+    fetchAllPosts: (category) => fetchAllPosts(dispatch, category),
     updatePosts: (posts) => dispatch(receivePosts(posts))
   }
 }

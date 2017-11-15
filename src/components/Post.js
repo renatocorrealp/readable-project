@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { turnOnOffEditPost, editPost, removePost, votePost, removePostVote  } from '../actions';
+import { turnOnOffEditPost, fetchPost, excludePost, increasePostVote, decreasePostVote  } from '../actions/PostActions';
 import { connect } from 'react-redux';
-import { updatePost, deletePost, updatePostVote, DOWN_VOTE, UP_VOTE } from '../utils/apis';
 import '../style/Post.css';
 import { formatTimestamp } from '../utils/commons';
+
 class Post extends Component{
   turnOnOffEditPost = (postId) => {
     const { turnOnOffEditPost } = this.props;
@@ -109,10 +109,10 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    editPost: (commentId, title, body, timestamp) => updatePost(commentId, title, body, timestamp).then(() => dispatch(editPost(commentId, title, body, timestamp))),
-    removePost: (postId) => deletePost(postId).then(() => dispatch(removePost(postId))),
-    votePost: (postId) => updatePostVote(postId, UP_VOTE).then(() => dispatch(votePost(postId))),
-    removePostVote: (postId) => updatePostVote(postId, DOWN_VOTE).then(() => dispatch(removePostVote(postId))),
+    editPost: (commentId, title, body, timestamp) => fetchPost(dispatch, commentId, title, body, timestamp),
+    removePost: (postId) => excludePost(dispatch, postId),
+    votePost: (postId) => increasePostVote(dispatch, postId),
+    removePostVote: (postId) => decreasePostVote(dispatch, postId),
     turnOnOffEditPost: (postId) => dispatch(turnOnOffEditPost(postId))
   }
 }

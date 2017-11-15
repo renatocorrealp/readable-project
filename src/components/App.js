@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import '../style/App.css';
-import { getAllCategories } from '../utils/apis';
-import { receiveCategories } from '../actions';
 import { Route, Switch }from 'react-router-dom';
 import { connect } from 'react-redux';
 import ListPosts from './ListPosts';
 import { withRouter } from 'react-router-dom';
 import PageNotFound from './PageNotFound';
-export const ROOT_PATH = {name:'all', path: '/'};
+import { fetchCategories } from '../actions/CategoryActions';
+
+export const ROOT_PATH = { name:'all', path: '/' };
 
 class App extends Component {
   componentDidMount = () => {
@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   render() {
-    let {categories} = this.props;
+    let { categories } = this.props;
 
     return (
       <div className="App">
@@ -42,12 +42,6 @@ class App extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-  return {
-    fetchCategories: () => getAllCategories().then(categories => dispatch(receiveCategories(categories)))
-  }
-}
-
 const mapStateToProps = ({categories}) =>{
   return {
     categories:
@@ -58,6 +52,12 @@ const mapStateToProps = ({categories}) =>{
       }
     })
   };
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return {
+    fetchCategories: fetchCategories(dispatch)
+  }
 }
 
 export default  withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
