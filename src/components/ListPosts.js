@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Route }from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
-import { getAllPosts, getPostsByCategory } from '../utils/apis';
-import { receivePosts } from '../actions';
+import { Link, Route, Switch, withRouter } from 'react-router-dom';
+import { receivePosts, fetchAllPosts, fetchPosts } from '../actions/PostActions';
+
 import ListComments from './ListComments';
 import Post from './Post';
 import '../style/ListPosts.css';
@@ -12,7 +10,7 @@ import { ROOT_PATH } from './App';
 import Select from 'react-select';
 import NewPost from './NewPost';
 import { orderMessages, orderTypes, ORDER_NONE } from '../utils/commons';
-
+import PageNotFound from './PageNotFound';
 class ListPosts extends Component{
 
   state = {
@@ -53,68 +51,71 @@ class ListPosts extends Component{
 
     return(
       <div className="list-posts">
-        <Route
-          exact path={category.path}
-          render={() => (
-            <div>
-              <div className="categories">
-                {allCategories.map(category => (
-                  <div className="category-name" key={category.name}>
-                    <Link to={category.path}>{category.name}</Link>
-                  </div>
-                ))}
-              </div>
-
-              { (posts && posts.length > 0) &&
-                <div>
-                  <div align="right" className="filters">
-                    <div className="width-13-percent message-sort">
-                      <div className="margin-top-15">
-                        Sorted By
-                      </div>
-                      <div className="margin-left-2-percent">
-                        <Select
-                          options={orderTypes}
-                          className="width-100-percent sort-selector"
-                          searchable={false}
-                          onChange={(event) => {
-                            if(event){
-                              this.orderPosts(event.value)
-                            }
-                          }}
-                          value={orderSelected}/>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="posts-details">
-                    {posts.map((post) =>(
-                      <Post key={post.id} post={post}/>
-                    ))}
-
-                  </div>
-                </div>
-              }
-
-              {(!posts || posts.length < 1) &&
-                <div className="no-message-found">
-                  No post found
-                </div>
-              }
-
-              <NewPost category={category}/>
-            </div>
-          )}
-          />
-        {posts.map((post) =>(
+        <Switch>
           <Route
-            exact key={post.id} path={post.commentsPath}
+            exact path={category.path}
             render={() => (
               <div>
-                <ListComments post={post} />
+                <div className="categories">
+                  {allCategories.map(category => (
+                    <div className="category-name" key={category.name}>
+                      <Link to={category.path}>{category.name}</Link>
+                    </div>
+                  ))}
+                </div>
+
+                { (posts && posts.length > 0) &&
+                  <div>
+                    <div align="right" className="filters">
+                      <div className="width-13-percent message-sort">
+                        <div className="margin-top-15">
+                          Sorted By
+                        </div>
+                        <div className="margin-left-2-percent">
+                          <Select
+                            options={orderTypes}
+                            className="width-100-percent sort-selector"
+                            searchable={false}
+                            onChange={(event) => {
+                              if(event){
+                                this.orderPosts(event.value)
+                              }
+                            }}
+                            value={orderSelected}/>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="posts-details">
+                      {posts.map((post) =>(
+                        <Post key={post.id} post={post}/>
+                      ))}
+
+                    </div>
+                  </div>
+                }
+
+                {(!posts || posts.length < 1) &&
+                  <div className="no-message-found">
+                    No post found
+                  </div>
+                }
+
+                <NewPost category={category}/>
               </div>
             )}
             />
-        ))}
+          {posts.map((post) =>(
+            <Route
+              exact key={post.id} path={post.commentsPath}
+              render={() => (
+                <div>
+                  <ListComments post={post} />
+                </div>
+              )}
+              />
+          ))}
+          <Route component={ PageNotFound }/>
+        </Switch>
       </div>
     )
   }
@@ -123,7 +124,7 @@ class ListPosts extends Component{
 const mapStateToProps = ({posts, categories}) =>{
   return {
     posts: posts.filter((post) => {
-      post.commentsPath=`/${post.category}/${post.id}/comments`;
+      post.commentsPath=`/${post.category}/${post.id}`;
       post.postsPath=`/${post.category}`
       return !post.deleted;
     }),
@@ -133,8 +134,8 @@ const mapStateToProps = ({posts, categories}) =>{
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    fetchPosts: (category) => getPostsByCategory(category).then(posts => dispatch(receivePosts(posts))),
-    fetchAllPosts: (category) => getAllPosts().then(posts => dispatch(receivePosts(posts))),
+    fetchPosts: (category) => fetchPosts(dispatch, category),
+    fetchAllPosts: (category) => fetchAllPosts(dispatch, category),
     updatePosts: (posts) => dispatch(receivePosts(posts))
   }
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendComment } from '../utils/apis';
-import { addComment } from '../actions';
+import { saveComment } from '../actions/CommentActions';
 import { getNewId } from '../utils/commons';
 
 class NewComment extends Component{
@@ -90,7 +89,7 @@ const mapStateToProps = ({ categories }) =>{
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    addComment: (comment) => sendComment(comment).then(newComment => dispatch(addComment(newComment)))
+    addComment: (comment) => saveComment(dispatch, comment)
   }
 }
 

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getCommentsByPost } from '../utils/apis';
-import { receiveComments } from '../actions';
+import { receiveComments, fetchComments } from '../actions/CommentActions';
 import NewComment from './NewComment';
 import Comment from './Comment';
 import Post from './Post';
@@ -94,7 +93,7 @@ const mapStateToProps = ({comments}) =>{
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    fetchComments: (postId) => getCommentsByPost(postId).then(comments => dispatch(receiveComments(comments))),
+    fetchComments: (postId) => fetchComments(dispatch, postId),
     updateComments: (comments) => dispatch(receiveComments(comments))
   }
 }
